@@ -1,0 +1,15 @@
+[package]
+name = "linebot-rust"
+version = "0.1.0"
+authors = ["s0ralit <s0ralit@protonmail.com>"]
+edition = "2018"
+
+[dependencies]
+rocket = "0.3.12"
+rocket_codegen = "0.3.12"
+rocket_contrib = "0.3.12"
+line-messaging-api-rocket = { git = "https://github.com/uma0317/line-messaging-api-rocket"}
+serde_json = "1.0"
+regex = "0.1"
+reqwest = "*"
+env_logger = "0.5"
