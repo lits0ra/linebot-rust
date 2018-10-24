@@ -9,10 +9,6 @@ extern crate reqwest;
 extern crate env_logger;
 
 
-
-use rocket::response::Failure;
-use rocket::http::Status;
-
 use serde_json::value::Value;
 
 use line_messaging_api_rocket::bot::LineBot;
