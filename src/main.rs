@@ -24,8 +24,8 @@ use line_messaging_api_rocket::rocket_line::models::{ Body, Signature };
 #[post("/callback", format="application/json", data = "<body>")]
 fn webhook (signature: Signature, body: Body,) -> Result<(), Box<std::error::Error>> { 
     let bot = LineBot::new(
-        "XXXXX",
-        "XXXXX",
+        "XXX",
+        "XXX",
     );
 
     if bot.check_signature(&body.data, &signature.key){
@@ -42,11 +42,15 @@ fn webhook (signature: Signature, body: Body,) -> Result<(), Box<std::error::Err
                 let recive_location: &str = &recive_event["events"][0]["message"]["address"].as_str().unwrap().to_string()[21..].to_string();
                 let message = LineMessage::create_text("", &(recive_location.to_owned()+"\n付近の電車の発着情報を検索します。"));
                 event.reply(vec![message], bot);
-                let data: &str = &reqwest::get(&("http://geo.search.olp.yahooapis.jp/OpenLocalPlatform/V1/geoCoder?appid=XXXXXXXX&query=".to_owned()+&recive_location.to_owned()+"&output=json"))?.text()?;
+                let data: &str = &reqwest::get(&("http://geo.search.olp.yahooapis.jp/OpenLocalPlatform/V1/geoCoder?appid=XXX&query=".to_owned()+&recive_location.to_owned()+"&output=json"))?.text()?;
                 let recive_data: Value = serde_json::from_str(data).unwrap();
-                let coordinates = recive_data["Feature"][0]["Geometry"]["Coordinates"];
-                let latitude: &str = serde_json::from_str(coordinates).unwrap();
-                let longitude: &str = coordinates[0];
+                let coordinates: &str = &recive_data["Feature"][0]["Geometry"]["Coordinates"].to_string();
+                println!("{}", coordinates);
+                // 無理やりやってるのでいつか直したい
+                // 緯度
+                let latitude = &coordinates[1..13];
+                // 経度
+                let longitude = &coordinates[14..25];
                 
             }
         }
